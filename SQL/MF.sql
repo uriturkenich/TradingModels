@@ -34,18 +34,18 @@ WHERE FC_MF.1PeriodPositive = 0 AND FC_MF.1PeriodNegative = 0;
 UPDATE `FC_MF` TM
 JOIN (SELECT TM.ID, `LastDate`, `1PeriodPositive`, `1PeriodNegative`, 
 #Last 14 days positive
-(SELECT SUM(L14.1PeriodPositive) FROM FC_MF L14 WHERE DATEDIFF(TM.LastDate ,L14.LastDate) >= 0 AND 
+(SELECT SUM(L14.1PeriodPositive) FROM FC_MF L14 WHERE TM.Stock_ID = L14.Stock_ID AND DATEDIFF(TM.LastDate ,L14.LastDate) >= 0 AND 
 DATEDIFF(TM.LastDate ,L14.LastDate) < 
 CASE DAYNAME(TM.LastDate) WHEN 'Thursday' THEN 20 WHEN 'Wednesday' THEN 20 ELSE 18 END) AS L14P, 
 #Last 14 days negative
-(SELECT SUM(L14.1PeriodNegative) FROM FC_MF L14 WHERE DATEDIFF(TM.LastDate ,L14.LastDate) >= 0 AND 
+(SELECT SUM(L14.1PeriodNegative) FROM FC_MF L14 WHERE TM.Stock_ID = L14.Stock_ID AND DATEDIFF(TM.LastDate ,L14.LastDate) >= 0 AND 
 DATEDIFF(TM.LastDate ,L14.LastDate) < 
 CASE DAYNAME(TM.LastDate) WHEN 'Thursday' THEN 20 WHEN 'Wednesday' THEN 20 ELSE 18 END) AS L14N,
 #MF index
-100 - 100 / (1 + (SELECT SUM(L14.1PeriodPositive) FROM FC_MF L14 WHERE DATEDIFF(TM.LastDate ,L14.LastDate) >= 0 AND 
+100 - 100 / (1 + (SELECT SUM(L14.1PeriodPositive) FROM FC_MF L14 WHERE TM.Stock_ID = L14.Stock_ID AND DATEDIFF(TM.LastDate ,L14.LastDate) >= 0 AND 
 DATEDIFF(TM.LastDate ,L14.LastDate) < 
 CASE DAYNAME(TM.LastDate) WHEN 'Thursday' THEN 20 WHEN 'Wednesday' THEN 20 ELSE 18 END) /
-(SELECT SUM(L14.1PeriodNegative) FROM FC_MF L14 WHERE DATEDIFF(TM.LastDate ,L14.LastDate) >= 0 AND 
+(SELECT SUM(L14.1PeriodNegative) FROM FC_MF L14 WHERE TM.Stock_ID = L14.Stock_ID AND DATEDIFF(TM.LastDate ,L14.LastDate) >= 0 AND 
 DATEDIFF(TM.LastDate ,L14.LastDate) < 
 CASE DAYNAME(TM.LastDate) WHEN 'Thursday' THEN 20 WHEN 'Wednesday' THEN 20 ELSE 18 END)) AS MFIndex  
 FROM `FC_MF` TM) MFI

@@ -4,7 +4,7 @@ USE `FC`$$
 
 DROP PROCEDURE IF EXISTS `build_darvas_box`$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `build_darvas_box`() NOT DETERMINISTIC CONTAINS SQL SQL SECURITY DEFINER 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `build_darvas_box`(fc_stockid INT) NOT DETERMINISTIC CONTAINS SQL SQL SECURITY DEFINER 
 
 BEGIN
  
@@ -37,9 +37,8 @@ DECLARE second_low FLOAT DEFAULT 0;
  -- declare cursor for price table
  DECLARE price_cursor CURSOR FOR 
  SELECT ID, Trade_Date, High, Low FROM FC_Stock_Prices 
- WHERE Trade_Date >= date_sub(NOW(), INTERVAL 500 DAY) AND  Stock_ID = 1
+ WHERE Trade_Date >= date_sub(NOW(), INTERVAL 1000 DAY) AND Stock_ID = fc_stockid
  ORDER BY Trade_date;
- 
 
  
  -- declare NOT FOUND handler
@@ -47,6 +46,10 @@ DECLARE CONTINUE HANDLER
     FOR NOT FOUND SET v_finished = 1;
  
 OPEN price_cursor;
+
+
+-- delete data from table and recreate it
+DELETE FROM FC_Darvas WHERE Stock_ID = fc_stockid;
  
 get_price: LOOP
  
@@ -109,11 +112,11 @@ IF low4 > 0 THEN
             SELECT 'second low', last_trade_date, last_low, low2, last_high;
             SET second_low = last_low;
             SET last_high = 99999;
-            INSERT INTO `FC_Darvas`(`Stock_Prices_ID`, `ResistancePoint`) VALUES (last_id, 2);
+            INSERT INTO `FC_Darvas`(`Stock_Prices_ID`, `ResistancePoint`, `Stock_ID`) VALUES (last_id, 2, fc_stockid);
         ELSE
             -- SELECT 'local low', last_trade_date, low1,low2,low3;
             SET second_low = 0;
-            INSERT INTO `FC_Darvas`(`Stock_Prices_ID`, `ResistancePoint`) VALUES (last_id, 1);
+            INSERT INTO `FC_Darvas`(`Stock_Prices_ID`, `ResistancePoint`, `Stock_ID`) VALUES (last_id, 1, fc_stockid);
             SELECT 'first low', last_trade_date, last_low, low2, last_high;
         END IF;
         SET last_low = low2;
@@ -125,10 +128,10 @@ IF low4 > 0 THEN
             SELECT 'Follow up point!!!', last_trade_date, second_low, high2, last_high;
             SET second_low = 1;
             SET last_high = 99999;
-            INSERT INTO `FC_Darvas`(`Stock_Prices_ID`, `ResistancePoint`) VALUES (last_id, 4);
+            INSERT INTO `FC_Darvas`(`Stock_Prices_ID`, `ResistancePoint`, `Stock_ID`) VALUES (last_id, 4, fc_stockid);
         ELSE 
             SET last_high = high2;
-            INSERT INTO `FC_Darvas`(`Stock_Prices_ID`, `ResistancePoint`) VALUES (last_id, 3);  
+            INSERT INTO `FC_Darvas`(`Stock_Prices_ID`, `ResistancePoint`, `Stock_ID`) VALUES (last_id, 3, fc_stockid);  
             SELECT 'first high', last_trade_date, second_low, high1,high2,high3, last_high;
         END IF;
     END IF;

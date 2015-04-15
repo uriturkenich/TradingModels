@@ -48,8 +48,7 @@ function generateChartData(arr) {
             });
         }
         // If a it's Follow Up point, make an event note
-        if (arr[0][i]['ResistancePoint'] == 4) {
-
+        if (arr[0][i]['ResistancePoint'] == 4 && arr[0][i]['FC_MA50'] < arr[0][i]['Close'] && arr[0][i]['MFIndex'] > 50) {
             events.push({
                 date: newDate,
                 type: "sign",

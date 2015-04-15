@@ -20,13 +20,13 @@ class GetStockPrices {
         $db = new dB();
 
         //Check when was the last update
-        $sql = "SELECT FC_Stock_Prices.* , ResistancePoint FROM `FC_Stock_Prices` \n"
+        $sql = "SELECT FC_Stock_Prices.* , ResistancePoint, FC_MF.MFIndex FROM `FC_Stock_Prices` \n"
     . " INNER JOIN `FC_WIKI_Codes`\n"
     . " ON FC_Stock_Prices.Stock_ID=FC_WIKI_Codes.ID\n"
-    . " LEFT JOIN FC_Darvas ON FC_Darvas.Stock_Prices_ID = FC_Stock_Prices.ID"
-    . " WHERE FC_WIKI_Codes.Code = '$stock_symbol' \n"
-    . " AND Trade_Date >= ADDDATE(NOW(), -1000)"
-    . " ORDER BY `Trade_Date` ";
+    . " LEFT JOIN FC_Darvas ON FC_Darvas.Stock_Prices_ID = FC_Stock_Prices.ID \n"
+    . " LEFT JOIN FC_MF ON FC_MF.Stock_Prices_ID = FC_Stock_Prices.ID\n"
+    . " WHERE FC_WIKI_Codes.Code = '$stock_symbol' AND Trade_Date >= ADDDATE(NOW(), -1000)\n"
+    . "ORDER BY `FC_Stock_Prices`.`Trade_Date`";
         $result = $db->select($sql);
         return $result;
     }
