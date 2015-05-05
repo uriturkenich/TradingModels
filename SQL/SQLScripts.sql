@@ -67,3 +67,10 @@ JOIN (SELECT TM.ID, (SELECT AVG((t2.High+t2.Low+t2.Close)/3) FROM FC_Stock_Price
 FROM FC_Stock_Prices AS TM) MovAvg ON MovAvg.ID = FC_Stock_Prices.ID
 SET FC_Stock_Prices.FC_MA50 = MovAvg.MA50
 WHERE FC_Stock_Prices.FC_MA50 = 0
+
+
+
+
+--
+INSERT INTO `FC_WIKI_Codes`( `Code`, `Name`, `Start_Date`, `End_Date`, `Frequency`, `Last_Updated`) 
+SELECT `Code`, `Name`, `Start_Date`, `End_Date`, `Frequency`, `Last_Updated` FROM FC.`FC_WIKI_Codes` WHERE Code IN (SELECT Ticker FROM CSV_DB.`TBL_NAME`)
