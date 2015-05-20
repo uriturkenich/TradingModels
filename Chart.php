@@ -23,6 +23,14 @@
         $sp = new GetStockPrices();
         $sData = $sp->GetData($stock_symbol);
         ?>
+        
+        <?php
+        require_once "DarvasBox.php";
+
+        // Get Stock prices
+        $d_box = new DarvasBox();
+        $d_box->CreateBox($stock_symbol);
+        ?>
 
     </head>
     <body style="background-color:#FFFFFF">
@@ -99,13 +107,7 @@
             <!--input type="button" id="addPanelButton" onclick="addPanel()" value="add volume panel">
             <input type="button" disabled="true" id="removePanelButton" onclick="removePanel()" value="remove volume panel"-->
 
-            <br><br>
-            Note: 
-            <br>This model provides "Follow up" points. They indicate placing a buying order at this price. The buying order can be executed if the price crosses the "follow up" point in the next few days.
-            <br> The model basics are - Price over Moving Average 50 + Money flow index is positive + two local lows followed by two local highs.
-            <br> Time resolution is daily.
-            <br> All data is downloaded from - https://www.quandl.com/
-       
+            
     </body>
 
 </html>
