@@ -23,18 +23,19 @@
         $sp = new GetStockPrices();
         $sData = $sp->GetData($stock_symbol);
         ?>
-        
-        <?php
-        require_once "DarvasBox.php";
-
-        // Get Stock prices
-        $d_box = new DarvasBox();
-        $d_box->CreateBox($stock_symbol);
-        ?>
+       
 
     </head>
     <body style="background-color:#FFFFFF">
 
+        <?php
+        require_once "DarvasBox.php";
+
+        // Get Stock prices
+        $d_box = new Model1();
+        $d_box->Main($stock_symbol);
+        ?>
+        
         <script type="text/javascript">
             AmCharts.ready(function () {
                 var chartData = [<?php echo json_encode($sData) ?>];

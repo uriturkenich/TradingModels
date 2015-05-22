@@ -15,18 +15,23 @@ class GetStockPrices {
 
         //Check if the database is up tp date
         $this->CheckData($stock_symbol);
-        
-        
+
+
         $db = new dB();
 
-        //Check when was the last update
-        $sql = "SELECT FC_Stock_Prices.* , ResistancePoint, FC_MF.MFIndex FROM `FC_Stock_Prices` \n"
-    . " INNER JOIN `FC_WIKI_Codes`\n"
-    . " ON FC_Stock_Prices.Stock_ID=FC_WIKI_Codes.ID\n"
-    . " LEFT JOIN FC_Darvas ON FC_Darvas.Stock_Prices_ID = FC_Stock_Prices.ID \n"
-    . " LEFT JOIN FC_MF ON FC_MF.Stock_Prices_ID = FC_Stock_Prices.ID\n"
-    . " WHERE FC_WIKI_Codes.Code = '$stock_symbol' AND Trade_Date >= ADDDATE(NOW(), -1000)\n"
-    . "ORDER BY `FC_Stock_Prices`.`Trade_Date`";
+        //Get the data
+        /* $sql = "SELECT FC_Stock_Prices.* , ResistancePoint, FC_MF.MFIndex FROM `FC_Stock_Prices` \n"
+          . " INNER JOIN `FC_WIKI_Codes`\n"
+          . " ON FC_Stock_Prices.Stock_ID=FC_WIKI_Codes.ID\n"
+          . " LEFT JOIN FC_Darvas ON FC_Darvas.Stock_Prices_ID = FC_Stock_Prices.ID \n"
+          . " LEFT JOIN FC_MF ON FC_MF.Stock_Prices_ID = FC_Stock_Prices.ID\n"
+          . " WHERE FC_WIKI_Codes.Code = '$stock_symbol' AND Trade_Date >= ADDDATE(NOW(), -1000)\n"
+          . "ORDER BY `FC_Stock_Prices`.`Trade_Date`";
+         */
+        $sql = "SELECT FC_Stock_Prices.* FROM FC_Stock_Prices"
+                . " INNER JOIN `FC_WIKI_Codes` ON FC_Stock_Prices.Stock_ID=FC_WIKI_Codes.ID \n"
+                . " WHERE FC_WIKI_Codes.Code = '$stock_symbol' AND Trade_Date >= ADDDATE(NOW(), -1000)\n"
+                . " ORDER BY `FC_Stock_Prices`.`Trade_Date`";
         $result = $db->select($sql);
         return $result;
     }
@@ -51,7 +56,10 @@ class GetStockPrices {
 
             //if there is no data 
             if ($last_updated == "0000-00-00") {
-                $sData = $quandl->getSymbol("WIKI/$stock_symbol");
+                $sData = $quandl->getSymbol("WIKI/$stock_symbol", [
+                        "trim_start" => "2007-01-01",
+                        "trim_end" => "today",
+                    ]);
             } else {
                 //If there is partial data
                 if (date("Y-m-d") > date($last_updated)) {
@@ -62,7 +70,7 @@ class GetStockPrices {
                     ]);
                 }
             }
-            
+
             // INSERT missing data to DB
             $this->InsertToDB($sData, $stock_symbol, $stock_id);
 

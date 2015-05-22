@@ -85,21 +85,31 @@
 
                 <div id="market-summary" style = "z-index: -1;">
                     <div  style="color:white; text-position:relative;left:300px">
-                                <br><br>
-                                
-                                PLease note! 
-                                <br> - This web-site provides implementation of technical-analysis models. Since the web-site is still under construction there's only one model implemented.
-                                <br> - This model provides "Follow up" points. They indicate placing a buying order at this price. The buying order can be executed if the price crosses the "follow up" point in the next few days.
-                                <br> - The model basics are - Price over Moving Average 50 + Money flow index is positive + two local lows followed by two local highs.
-                                <br> - Time resolution is daily.
-                                <br> - All data is downloaded from - https://www.quandl.com/
-                                <br> - This website is still under construction and for demonstration only.
-                                <p style="text-align:center;font-size:12px"> </p>
-                            </div>
-                            
+                        <br><br>
+
+                        PLease note! 
+                        <br> - This web-site provides implementation of technical-analysis models. Since the web-site is still under construction there's only one model implemented.
+                        <br> - This model provides "Follow up" points. They indicate placing a buying order at this price. The buying order can be executed if the price crosses the "follow up" point in the next few days.
+                        <br> - The model basics are - Price over Moving Average 50 + Money flow index is positive + two local lows followed by two local highs.
+                        <br> - Time resolution is daily.
+                        <br> - All data is downloaded from - https://www.quandl.com/
+                        <br> - This website is still under construction and for demonstration only.
+                    </div>
+
+                    <div  style="color:white; text-position:relative;">
+                        <br><br>
+
+                        <?php
+                        require_once "TestModel.php";
+                        // Run test model on all the stocks
+                        $test = new TestModel();
+                        $test->Main();
+                        ?>
+                    </div>
+
                     <div class="tv-layout-width clearfix" style = "z-index: -1;">
                         <div id="market-summary-wrapper" style = "z-index: -1;">
-                            
+
                             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         </div>
                     </div>
