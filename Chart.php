@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Trading Models</title>
+        
         <link rel="stylesheet" href="../amcharts/style.css" type="text/css">
         <link href="static/css/site.94606a8fe4a6.css" rel="stylesheet" type="text/css" />
         <script src="amcharts/amcharts.js" type="text/javascript"></script>
@@ -23,19 +23,13 @@
         $sp = new GetStockPrices();
         $sData = $sp->GetData($stock_symbol);
         ?>
-       
+       <title>Trading Models - <?php print "$stock_symbol" ?></title>
 
     </head>
     <body style="background-color:#FFFFFF">
 
-        <?php
-        require_once "DarvasBox.php";
 
-        // Get Stock prices
-        $d_box = new Model1();
-        $d_box->Main($stock_symbol);
-        ?>
-        
+        <div style = "position:relative ;top: 5px;left: 0px; font-weight: bold;"><?php print "$stock_symbol" ?></div>
         <script type="text/javascript">
             AmCharts.ready(function () {
                 var chartData = [<?php echo json_encode($sData) ?>];

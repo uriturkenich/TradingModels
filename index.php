@@ -66,7 +66,7 @@
                 <div class="index-learnmore-header" style="background-image:url('')">
                     <br><br><br><br><br><br>
                     <h2 data-i18n="network-where-active-traders">Trading Models!</h2>
-                    <p data-i18n="the-best-on-the-web-stock">New platform for testing technical analysis models.</p>
+                    <p data-i18n="the-best-on-the-web-stock">A platform for testing technical analysis models. To see an example choose a stock below:</p>
 
 
                     <div class="symbol-input">
@@ -90,7 +90,7 @@
                         PLease note! 
                         <br> - This web-site provides implementation of technical-analysis models. Since the web-site is still under construction there's only one model implemented.
                         <br> - This model provides "Follow up" points. They indicate placing a buying order at this price. The buying order can be executed if the price crosses the "follow up" point in the next few days.
-                        <br> - The model basics are - Price over Moving Average 50 + Money flow index is positive + two local lows followed by two local highs.
+                        <br> - Follow up point is created when - Price over Moving Average 50 + Money flow index is between 45 and 60 + two local lows followed by two local highs.
                         <br> - Time resolution is daily.
                         <br> - All data is downloaded from - https://www.quandl.com/
                         <br> - This website is still under construction and for demonstration only.
@@ -102,8 +102,12 @@
                         <?php
                         require_once "TestModel.php";
                         // Run test model on all the stocks
+                        print "This is a profit calculation. Calculated by buying a single stock in each trade during the last year: <br>";
+                        print "(a more comprehensible profit calculation will be implemented later.) <br>";
                         $test = new TestModel();
-                        $test->Main();
+                        //$test->Main();
+                        $test->PrintResults();
+                        //$test->CalculateProfit();
                         ?>
                     </div>
 

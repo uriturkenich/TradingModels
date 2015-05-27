@@ -74,3 +74,20 @@ WHERE FC_Stock_Prices.FC_MA50 = 0
 --
 INSERT INTO `FC_WIKI_Codes`( `Code`, `Name`, `Start_Date`, `End_Date`, `Frequency`, `Last_Updated`) 
 SELECT `Code`, `Name`, `Start_Date`, `End_Date`, `Frequency`, `Last_Updated` FROM FC.`FC_WIKI_Codes` WHERE Code IN (SELECT Ticker FROM CSV_DB.`TBL_NAME`)
+
+
+-----
+
+
+SELECT FC_WIKI_Codes.Code, FC_Results.*
+FROM `FC_Results` 
+INNER JOIN FC_WIKI_Codes ON FC_WIKI_Codes.ID = FC_Results.Stock_ID
+ORDER BY `FC_Results`.`Purchase_Date`  ASC
+
+
+----------------
+
+SELECT FC_WIKI_Codes.Code, FC_WIKI_Codes.Name, FC_Results.*
+FROM `FC_Results` 
+INNER JOIN FC_WIKI_Codes ON FC_WIKI_Codes.ID = FC_Results.Stock_ID
+WHERE 1 ORDER BY `Purchase_Date` ASC

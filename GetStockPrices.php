@@ -28,9 +28,11 @@ class GetStockPrices {
           . " WHERE FC_WIKI_Codes.Code = '$stock_symbol' AND Trade_Date >= ADDDATE(NOW(), -1000)\n"
           . "ORDER BY `FC_Stock_Prices`.`Trade_Date`";
          */
-        $sql = "SELECT FC_Stock_Prices.* FROM FC_Stock_Prices"
+        $sql = "SELECT DISTINCT FC_Stock_Prices.*, TPURCHASE.Purchase_Price, TSOLD.Sell_Price FROM FC_Stock_Prices"
                 . " INNER JOIN `FC_WIKI_Codes` ON FC_Stock_Prices.Stock_ID=FC_WIKI_Codes.ID \n"
-                . " WHERE FC_WIKI_Codes.Code = '$stock_symbol' AND Trade_Date >= ADDDATE(NOW(), -1000)\n"
+                . " LEFT JOIN FC_Results TPURCHASE ON FC_Stock_Prices.Stock_ID = TPURCHASE.Stock_ID AND FC_Stock_Prices.Trade_Date = TPURCHASE.Purchase_Date"
+                . " LEFT JOIN FC_Results TSOLD ON FC_Stock_Prices.Stock_ID = TSOLD.Stock_ID AND FC_Stock_Prices.Trade_Date = TSOLD.Sell_Date"
+                . " WHERE FC_WIKI_Codes.Code = '$stock_symbol' AND Trade_Date >= ADDDATE(NOW(), -500)\n"
                 . " ORDER BY `FC_Stock_Prices`.`Trade_Date`";
         $result = $db->select($sql);
         return $result;
