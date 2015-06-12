@@ -67,6 +67,7 @@
                     <br><br><br><br><br><br>
                     <h2 data-i18n="network-where-active-traders">Trading Models!</h2>
                     <p data-i18n="the-best-on-the-web-stock">A platform for testing technical analysis models. To see an example choose a stock below:</p>
+                    
 
 
                     <div class="symbol-input">
@@ -78,15 +79,13 @@
 
                     <br><br><br>
 
-
-
                     <br><br><br>
                 </div>
 
                 <div id="market-summary" style = "z-index: -1;">
                     <div  style="color:white; text-position:relative;left:300px">
                         <br><br>
-
+                        <a href="CalculateTest.php">Calculate Test</a><br>
                         PLease note! 
                         <br> - This web-site provides implementation of technical-analysis models. Since the web-site is still under construction there's only one model implemented.
                         <br> - This model provides "Follow up" points. They indicate placing a buying order at this price. The buying order can be executed if the price crosses the "follow up" point in the next few days.

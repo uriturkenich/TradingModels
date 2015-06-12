@@ -5,6 +5,9 @@ require_once "TestModel.php";
 
 $test = new TestModel();
 $test->Main();
-$test->PrintResults();
+$test->CalculateProfit();
+//$test->PrintResults();
+
+$test->CalculateProfit2();
 
 ?>

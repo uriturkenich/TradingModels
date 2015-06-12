@@ -16,6 +16,20 @@ CREATE TABLE `FC_Stock_Prices` (
  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
+CREATE TABLE `FC_Results` (
+ `ID` int(11) NOT NULL AUTO_INCREMENT,
+ `Stock_ID` int(11) NOT NULL,
+ `Purchase_Date` date NOT NULL,
+ `Purchase_Price` float NOT NULL,
+ `Sell_Date` date NOT NULL,
+ `Sell_Price` float NOT NULL,
+ `Profit` float NOT NULL,
+ PRIMARY KEY (`ID`),
+ KEY `Stock_ID` (`Stock_ID`,`Purchase_Date`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+
+
 INSERT INTO `FC`.`FC_Stock_Prices` 
 (`ID`, `Date`, `Open`, `High`, `Low`, `Close`, `Volume`, `Ex_Dividend`, `Split_Ratio`, 
 `Adj_Open`, `Adj_Low`, `Adj_Close`, `Adj_Volume`) 

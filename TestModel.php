@@ -2,6 +2,7 @@
 
 require_once "DB.php";
 require_once "Model1.php";
+require_once "Model2.php";
 
 use Db;
 
@@ -15,7 +16,9 @@ class TestModel {
         //DB object
         $db = new Db();
         // Get Stock prices
-        $m1 = new Model1();
+        $model = new Model1();
+
+
 
         //Check when was the last update
         $sql = "SELECT FC_WIKI_Codes.Code\n"
@@ -24,11 +27,14 @@ class TestModel {
                 . " GROUP BY FC_WIKI_Codes.Code ";
         $result = $db->select($sql);
 
+        //clear results table to perform the new test
+        $sql = "TRUNCATE TABLE FC_Results";
+        $db->query($sql);
 
         $gain = 0;
 
         for ($i = 0; $i <= count($result) - 1; $i++) {
-            $gain = $gain + $m1->Main($result[$i]['Code']);
+            $gain = $gain + $model->Main($result[$i]['Code']);
         }
         //print "total gain - $gain";
     }
@@ -45,15 +51,11 @@ class TestModel {
         for ($i = 0; $i <= count($result) - 1; $i++) {
             print "{$result[$i]['Code']}, {$result[$i]['Name']}: {$result[$i]['Profit']} <br>";
         }
-        
-        $sql = "SELECT SUM(Sell_Price - Purchase_Price ) AS Profit FROM `FC_Results`";
-        $result = $db->select($sql);
-        print "Total - {$result[0]['Profit']}";
     }
 
     public function CalculateProfit() {
         //How much to invest
-        $funds_allocated = 1000;
+        $funds_allocated = 100000;
 
         //DB object
         $db = new Db();        //Get the list of stocks
@@ -66,6 +68,46 @@ class TestModel {
             $sql = "UPDATE `FC_Results` SET Profit = $profit WHERE ID = {$result[$i]['ID']}";
             $db->query($sql);
         }
+        
+        $sql = "SELECT SUM(Profit) AS Profit FROM `FC_Results`";
+        $result = $db->select($sql);
+        print "Total : {$result[0]['Profit']}";
+    }
+
+    public function CalculateProfit2() {
+        //How much to invest
+        $funds_allocated = 100000;
+        $invested_sum = 0;
+        $max_num = 0;
+
+        //DB object
+        $db = new Db();
+        //Get a list of trading days
+        $sql = "SELECT Purchase_Date FROM `FC_Results` GROUP BY Purchase_Date ORDER BY `FC_Results`.`Purchase_Date` ASC";
+        $result = $db->select($sql);
+
+        for ($i = 0; $i <= count($result) - 1; $i++) {
+            //get a list of purchases day
+            $sql = "SELECT * FROM `FC_Results` WHERE Purchase_Date <= '{$result[$i]['Purchase_Date']}' AND Sell_Date >= '{$result[$i]['Purchase_Date']}'";
+            $trades = $db->select($sql);
+
+            for ($j = 0; $j <= count($result) - 1; $j++) {
+                //if today is purchase day, add to invested sum
+                if ($result[$i]['Purchase_Date'] == $trades[$j]['Purchase_Date']) {
+                    $num_of_stocks = 1000 / $trades[$j]['Purchase_Price'];
+                    $invested_sum = $invested_sum + ((int) $num_of_stocks * $trades[$j]['Purchase_Price']);
+                }
+                //if it's sold today
+                if ($result[$i]['Purchase_Date'] == $trades[$j]['Sell_Date']) {
+                    $num_of_stocks = 1000 / $trades[$j]['Purchase_Price'];
+                    $invested_sum = $invested_sum - ((int) $num_of_stocks * $trades[$j]['Sell_Price']);
+                }
+            }
+            $num = count($trades);
+            $max_num = max($max_num, $num);
+            //print "{$result[$i]['Purchase_Date']}: $num <BR>";
+        }
+        print "max = $max_num";
     }
 
     public function InvestmentStrategy() {

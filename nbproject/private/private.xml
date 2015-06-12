@@ -5,14 +5,17 @@
         <group>
             <file>file:/Applications/MAMP/htdocs/TradingModels/config.ini</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/Chart.php</file>
+            <file>file:/Applications/MAMP/htdocs/TradingModels/CalculateTest.php</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/GetStockPrices.php</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/GetAllData.php</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/index.php</file>
+            <file>file:/Applications/MAMP/htdocs/TradingModels/Model2.php</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/GenerateChartData.js</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/Quandl.php</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/Model1.php</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/TestModel.php</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/static/css/site.94606a8fe4a6.css</file>
+            <file>file:/Applications/MAMP/htdocs/TradingModels/SQL/SQLScripts.sql</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/GetQuandlMetaData.php</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/SQL/DarvasBox.sql</file>
             <file>file:/Applications/MAMP/htdocs/TradingModels/search-symbol.php</file>
